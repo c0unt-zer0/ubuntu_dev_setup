@@ -1,0 +1,35 @@
+---
+- name: Read enabled extensions
+  community.general.dconf:
+    key: /org/gnome/shell/enabled-extensions
+    state: read
+  register: enabled_extensions
+
+- name: Enable workspace indicator
+  shell:
+    cmd: gnome-extensions enable workspace-indicator@gnome-shell-extensions.gcampax.github.com
+  when: "'workspace-indicator@gnome-shell-extensions.gcampax.github.com' not in enabled_extensions.value"
+
+- name: Configure switch to workspace left
+  community.general.dconf:
+    key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-left
+    value: "['<Primary><Alt>h']"
+    state: present
+
+- name: Configure switch to workspace right
+  community.general.dconf:
+    key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-right
+    value: "['<Primary><Alt>l']"
+    state: present
+
+- name: Configure move to workspace left
+  community.general.dconf:
+    key: /org/gnome/desktop/wm/keybindings/move-to-workspace-left
+    value: "['<Primary><Shift><Alt>h']"
+    state: present
+
+- name: Configure move to workspace right
+  community.general.dconf:
+    key: /org/gnome/desktop/wm/keybindings/move-to-workspace-right
+    value: "['<Primary><Shift><Alt>l']"
+    state: present

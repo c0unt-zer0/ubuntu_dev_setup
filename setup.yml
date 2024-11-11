@@ -1,0 +1,66 @@
+---
+# TODO: Before: pip3 install --upgrade --user ansible
+#               pip3 install --user psutil
+#               then run as ansible-playbook -c local -i "localhost," setup.yml 
+# # Gammalt nedan
+# apt install virtualenv
+# virtualenv --no-site-packages ansible-venv
+# . ansible-venv/bin/activate
+
+- name: Setup the development environment
+  hosts: localhost
+  vars:
+    kitty_version: 0.37.0
+    bash_it_version: 3.0.3
+
+  tasks:
+    - name: Include gnome navigation tasks
+      include_tasks:
+        file: tasks/gnome-navigation.yml
+        apply:
+          tags:
+            - gnome-navigation
+
+    - name: Configure caps-lock to be escape
+      community.general.dconf:
+        key: /org/gnome/desktop/input-sources/xkb-options
+        value: "['caps:escape']"
+        state: present
+
+    - name: Clone bash-it
+      git:
+        repo: https://github.com/Bash-it/bash-it.git
+        dest: repos/bash-it
+        version: "v{{ bash_it_version }}"
+
+    - name: Clone gitstatus
+      git:
+        repo: https://github.com/romkatv/gitstatus.git
+        dest: repos/gitstatus
+        depth: 1
+
+    - name: Clone nvim-config
+      git:
+        repo: https://github.com/bagge/nvim-config.git
+        dest: repos/nvim-config
+
+    - name: Create directories
+      file:
+        path: tarballs/kitty.app
+        state: directory
+
+    - name: Download kitty release
+      get_url:
+        url: "https://github.com/kovidgoyal/kitty/releases/download/v{{ kitty_version }}/kitty-{{ kitty_version }}-x86_64.txz"
+        dest: "tarballs/kitty-{{ kitty_version }}-x86_64.tar"
+      register: download_kitty
+
+        #    - name: Extract kitty tarball
+        #      unarchive:
+        #        src: "tarballs/kitty-{{ kitty_version }}-x86_64.tar"
+        #        dest: "tarballs/kitty.app"
+        #        remote_src: yes
+    - name: Extract kitty tarball
+      shell:
+        cmd: tar -xf "tarballs/kitty-{{ kitty_version }}-x86_64.tar" -C "tarballs/kitty.app"
+      when: download_kitty.changed
