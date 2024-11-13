@@ -34,12 +34,26 @@
   with_items:
     - wl-clipboard
     - ripgrep
+    - curl
 
-    # - name: Set nvim as default editor
-    #   command: update-alternatives --set editor /usr/bin/nvim
-    #   changed_when: false
 - name: Set nvim as default editor for git
   community.general.git_config:
     name: core.editor
     scope: global
     value: nvim
+
+- name: Install nvm
+  become: no
+  shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | PROFILE=/dev/null bash
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: Install Node.js
+  shell: ". {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install 20"
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/versions/node"
+    chdir: "{{ ansible_env.HOME }}"
+    executable: /bin/bash
