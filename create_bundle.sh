@@ -2,6 +2,7 @@
 
 FILE_LIST=( \
     ".bash_history" \
+    ".bash_credentials" \
     ".flexlmrc" \
     ".gitconfig" \
     ".git-credentials" \
