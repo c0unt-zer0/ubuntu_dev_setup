@@ -11,8 +11,9 @@
   when: fzf_clone.changed
 
 - name: Build fzf
-  command: "./install --no-update-rc"
-  chdir: "repos/fzf"
+  command:
+    cmd: "./install --no-update-rc"
+    chdir: "repos/fzf"
 
 - name: Clone fzf-git
   git:
