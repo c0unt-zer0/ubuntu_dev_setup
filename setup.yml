@@ -30,6 +30,11 @@
         name: psutil
         state: present
 
+    - name: Create tarballs directory
+      file:
+        path: "{{ playbook_dir }}/tarballs"
+        state: directory
+
     - name: Include gnome customization tasks
       include_tasks:
         file: tasks/gnome-customization.yml
