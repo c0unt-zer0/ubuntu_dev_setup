@@ -108,6 +108,11 @@
         scope: global
         value: "{{ ansible_env.HOME }}/.gitignore"
 
+    - name: Ensure .gitignore exists
+      file:
+        path: "{{ ansible_env.HOME }}/.gitignore"
+        state: touch
+
     - name: Add go.sum to global gitignore
       lineinfile:
         path: "{{ ansible_env.HOME }}/.gitignore"
