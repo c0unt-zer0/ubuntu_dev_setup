@@ -11,3 +11,19 @@
     dest: repos/gitstatus
     depth: 1
 
+- name: Enable bash-it extras
+  file:
+    src: "../{{ item.folder }}/available/{{ item.name }}.{{ item.type }}.bash"
+    dest: repos/bash-it/enabled/{{ item.priority }}---{{ item.name }}.{{ item.type }}.bash
+    state: link
+    force: yes
+  with_items:
+    - { type: aliases, folder: aliases, priority: 150, name: general }
+    - { type: plugin, folder: plugins, priority: 250, name: base }
+    - { type: plugin, folder: plugins, priority: 250, name: gitstatus }
+    - { type: completion, folder: completion, priority: 325, name: system }
+    - { type: completion, folder: completion, priority: 350, name: bash-it }
+    - { type: aliases, folder: aliases, priority: 800, name: git }
+  tags:
+    - bash-it
+
