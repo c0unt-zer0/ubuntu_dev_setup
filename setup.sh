@@ -11,23 +11,23 @@ mkdir -p tarballs
 
 ###############################################################################
 # Keyboard customization
-#x gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
+gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
 
-#x gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Primary><Alt>h']"
-#x gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Primary><Alt>l']"
-#x gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Primary><Shift><Alt>h']"
-#x gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Primary><Shift><Alt>l']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Primary><Alt>h']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Primary><Alt>l']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Primary><Shift><Alt>h']"
+gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Primary><Shift><Alt>l']"
 ###############################################################################
 
 ###############################################################################
 # Bash_it
-#x git clone https://github.com/Bash-it/bash-it.git repos/bash-it
-#x git -C repos/bash-it checkout $BASH_IT_TAG
+git clone https://github.com/Bash-it/bash-it.git repos/bash-it
+git -C repos/bash-it checkout $BASH_IT_TAG
 ln -s repos/bash-it ~/.bash_it
 ln -s bash_it.bashrc ~/.bash_it.bashrc
 # Enable gitstatus plugin in bash-it
 # https://github.com/romkatv/gitstatus?tab=readme-ov-file#using-from-bash
-#x git clone --depth=1 https://github.com/romkatv/gitstatus.git repos/gitstatus
+git clone --depth=1 https://github.com/romkatv/gitstatus.git repos/gitstatus
 ###############################################################################
 
 ###############################################################################
@@ -36,7 +36,7 @@ wget -P tarballs https://github.com/neovim/neovim/releases/download/nightly/nvim
 tar -C tarballs -zxvf nvim-linux64.tar.gz
 ln -s tarballs/nvim-linux64/bin/nvim ~/.local/bin/nvim
 
-#x git clone https://github.com/bagge/nvim-config.git repos/nvim-config
+git clone https://github.com/bagge/nvim-config.git repos/nvim-config
 ln -s repos/nvim-config ~/.config/nvim
 
 # wl-copy and wl-paste as well as ripgrep for neovim
@@ -72,45 +72,45 @@ ln -s ranger.conf ~/.config/ranger/rc.conf
 
 ###############################################################################
 # Install Nerdfont
-#x FONTDIR=~/.local/share/fonts
-#x mkdir -p $FONTDIR
-#x wget -P tarballs https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip
-#x unzip tarballs/Hack.zip -d $FONTDIR
-#x fc-cache -f -v
+FONTDIR=~/.local/share/fonts
+mkdir -p $FONTDIR
+wget -P tarballs https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip
+unzip tarballs/Hack.zip -d $FONTDIR
+fc-cache -f -v
 ###############################################################################
 
 ###############################################################################
 # Kitty installation
-#x curl -L https://sw.kovidgoyal.net/kitty/installer.sh dest=tarballs | sh /dev/stdin
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh dest=tarballs | sh /dev/stdin
 # Create symbolic links to add kitty and kitten to PATH (assuming ~/.local/bin is in
 # your system-wide PATH)
-#x ln -s tarballs/kitty.app ~/.local/kitty.app
-#x ln -s ~/.local/kitty.app/bin/kitty ~/.local/kitty.app/bin/kitten ~/.local/bin/
+ln -s tarballs/kitty.app ~/.local/kitty.app
+ln -s ~/.local/kitty.app/bin/kitty ~/.local/kitty.app/bin/kitten ~/.local/bin/
 # Place the kitty.desktop file somewhere it can be found by the OS
-#x cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
+cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/
 # If you want to open text files and images in kitty via your file manager also add the kitty-open.desktop file
-#x cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/
+cp ~/.local/kitty.app/share/applications/kitty-open.desktop ~/.local/share/applications/
 # Update the paths to the kitty and its icon in the kitty desktop file(s)
-#x sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
-#x sed -i "s|Exec=kitty|Exec=$(readlink -f ~)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
+sed -i "s|Icon=kitty|Icon=$(readlink -f ~)/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png|g" ~/.local/share/applications/kitty*.desktop
+sed -i "s|Exec=kitty|Exec=$(readlink -f ~)/.local/kitty.app/bin/kitty|g" ~/.local/share/applications/kitty*.desktop
 # Make xdg-terminal-exec (and hence desktop environments that support it use kitty)
-#x echo 'kitty.desktop' > ~/.config/xdg-terminals.list
+echo 'kitty.desktop' > ~/.config/xdg-terminals.list
 
-#x gsettings set org.gnome.desktop.default-applications.terminal exec "${HOME}/.local/bin/kitty"
+gsettings set org.gnome.desktop.default-applications.terminal exec "${HOME}/.local/bin/kitty"
 
 # Setup kitty configuration
-#x mkdir -p ~/.config/kitty
-#x ln -s kitty.conf ~/.config/kitty/kitty.conf
+mkdir -p ~/.config/kitty
+ln -s kitty.conf ~/.config/kitty/kitty.conf
 
-#x git clone https://github.com/yurikhan/kitty_grab.git repos/kitty_grab
+git clone https://github.com/yurikhan/kitty_grab.git repos/kitty_grab
 
 # Install kitty_grab
-#x ln -s repos/kitty_grab/grab-vim.conf.example ~/.config/kitty/grab.conf
+ln -s repos/kitty_grab/grab-vim.conf.example ~/.config/kitty/grab.conf
 # echo "map ctrl+w kitten kitty_grab/grab.py" >> ~/.config/kitty/kitty.conf
 
 # Install kitty-themes
-#x git clone https://github.com/kovidgoyal/kitty-themes.git repos/kitty-themes
-#x ln -s repos/kitty-themes/themes/Dracula.conf ~/.config/kitty/theme.conf
+git clone https://github.com/kovidgoyal/kitty-themes.git repos/kitty-themes
+ln -s repos/kitty-themes/themes/Dracula.conf ~/.config/kitty/theme.conf
 ###############################################################################
 
 ###############################################################################
