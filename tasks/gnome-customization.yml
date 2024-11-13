@@ -5,10 +5,20 @@
     state: read
   register: enabled_extensions
 
+# Next task requires killall -SIGQUIT gnome-shell afterwards in order for the
+# extension to be found. Right now the next task will just fail but maybe some
+# sort of message could be printed to the user to inform of this.
+- name: Install gnome extensions app
+  become: true
+  package:
+    name: gnome-shell-extensions
+    state: present
+
 - name: Enable workspace indicator
-  shell:
+  command:
     cmd: gnome-extensions enable workspace-indicator@gnome-shell-extensions.gcampax.github.com
-  when: "'workspace-indicator@gnome-shell-extensions.gcampax.github.com' not in enabled_extensions.value"
+  changed_when: "'workspace-indicator' not in enabled_extensions.value"
+  ignore_errors: yes
 
 - name: Configure switch to workspace left
   community.general.dconf:
@@ -33,3 +43,13 @@
     key: /org/gnome/desktop/wm/keybindings/move-to-workspace-right
     value: "['<Primary><Shift><Alt>l']"
     state: present
+
+- name: Configure caps-lock to be escape
+  community.general.dconf:
+    key: /org/gnome/desktop/input-sources/xkb-options
+    value: "['caps:escape']"
+    state: present
+
+- name: Set dark mode
+  command: gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+  changed_when: false

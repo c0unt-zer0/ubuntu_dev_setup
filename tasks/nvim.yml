@@ -1,0 +1,45 @@
+---
+- name: Download nvim
+  get_url:
+    url: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+    dest: tarballs/nvim-linux64.tar
+  register: nvim_download
+
+- name: Extract nvim
+  command: tar -xf tarballs/nvim-linux64.tar -C tarballs
+  when: nvim_download.changed
+
+- name: Link nvim installation
+  file:
+    src: "{{ playbook_dir }}/tarballs/nvim-linux64/bin/nvim"
+    dest: "{{ ansible_env.HOME }}/.local/bin/nvim"
+    state: link
+
+- name: Clone nvim-config
+  git:
+    repo: https://github.com/bagge/nvim-config.git
+    dest: repos/nvim-config
+
+- name: Link nvim config
+  file:
+    src: "{{ playbook_dir }}/repos/nvim-config"
+    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    state: link
+
+- name: Install packages used by nvim
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - wl-clipboard
+    - ripgrep
+
+    # - name: Set nvim as default editor
+    #   command: update-alternatives --set editor /usr/bin/nvim
+    #   changed_when: false
+- name: Set nvim as default editor for git
+  community.general.git_config:
+    name: core.editor
+    scope: global
+    value: nvim

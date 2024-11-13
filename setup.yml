@@ -12,55 +12,104 @@
   vars:
     kitty_version: 0.37.0
     bash_it_version: 3.0.3
+    fzf_version: 0.53.0
 
   tasks:
-    - name: Include gnome navigation tasks
-      include_tasks:
-        file: tasks/gnome-navigation.yml
-        apply:
-          tags:
-            - gnome-navigation
-
-    - name: Configure caps-lock to be escape
-      community.general.dconf:
-        key: /org/gnome/desktop/input-sources/xkb-options
-        value: "['caps:escape']"
+    # Need to make sure psutil is available for ansible dconf module to work
+    # to install that in turn, we need python3-pip
+    - name: Install python3-pip
+      become: true
+      apt:
+        name: python3-pip
+        update_cache: yes
         state: present
 
-    - name: Clone bash-it
-      git:
-        repo: https://github.com/Bash-it/bash-it.git
-        dest: repos/bash-it
-        version: "v{{ bash_it_version }}"
+    - name: Install psutil
+      become: true
+      pip:
+        name: psutil
+        state: present
 
-    - name: Clone gitstatus
-      git:
-        repo: https://github.com/romkatv/gitstatus.git
-        dest: repos/gitstatus
-        depth: 1
+    - name: Include gnome customization tasks
+      include_tasks:
+        file: tasks/gnome-customization.yml
+        apply:
+          tags:
+            - gnome-customization
+      tags:
+        - always
 
-    - name: Clone nvim-config
-      git:
-        repo: https://github.com/bagge/nvim-config.git
-        dest: repos/nvim-config
+    - name: Include font tasks
+      include_tasks:
+        file: tasks/fonts.yml
+        apply:
+          tags:
+            - fonts
+      tags:
+        - always
 
-    - name: Create directories
-      file:
-        path: tarballs/kitty.app
-        state: directory
+    - name: Include kitty tasks
+      include_tasks:
+        file: tasks/kitty.yml
+        apply:
+          tags:
+            - kitty
+      tags:
+        - always
 
-    - name: Download kitty release
-      get_url:
-        url: "https://github.com/kovidgoyal/kitty/releases/download/v{{ kitty_version }}/kitty-{{ kitty_version }}-x86_64.txz"
-        dest: "tarballs/kitty-{{ kitty_version }}-x86_64.tar"
-      register: download_kitty
+    - name: Include nvim tasks
+      include_tasks:
+        file: tasks/nvim.yml
+        apply:
+          tags:
+            - nvim
+      tags:
+        - always
 
-        #    - name: Extract kitty tarball
-        #      unarchive:
-        #        src: "tarballs/kitty-{{ kitty_version }}-x86_64.tar"
-        #        dest: "tarballs/kitty.app"
-        #        remote_src: yes
-    - name: Extract kitty tarball
-      shell:
-        cmd: tar -xf "tarballs/kitty-{{ kitty_version }}-x86_64.tar" -C "tarballs/kitty.app"
-      when: download_kitty.changed
+    - name: Include bash-it tasks
+      include_tasks:
+        file: tasks/bash-it.yml
+        apply:
+          tags:
+            - bash-it
+      tags:
+        - always
+
+    - name: Include bashrc tasks
+      include_tasks:
+        file: tasks/bashrc.yml
+        apply:
+          tags:
+            - bashrc
+      tags:
+        - always
+
+    - name: Include ranger tasks
+      include_tasks:
+        file: tasks/ranger.yml
+        apply:
+          tags:
+            - ranger
+      tags:
+        - always
+
+    - name: Include fzf tasks
+      include_tasks:
+        file: tasks/fzf.yml
+        apply:
+          tags:
+            - fzf
+      tags:
+        - always
+
+    - name: Add global gitignore
+      community.general.git_config:
+        name: core.excludesfile
+        scope: global
+        value: "{{ ansible_env.HOME }}/.gitignore"
+
+    - name: Add go.sum to global gitignore
+      lineinfile:
+        path: "{{ ansible_env.HOME }}/.gitignore"
+        line: go.sum
+

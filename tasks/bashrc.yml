@@ -1,0 +1,13 @@
+---
+- name: Link bashrc-snippets to home directory
+  file:
+    src: "{{ playbook_dir }}/bashrc.d"
+    dest: "{{ ansible_env.HOME }}/.bashrc.d"
+    state: link
+
+- name: Link bashrc to home directory
+  file:
+    src: "{{ playbook_dir }}/bashrc"
+    dest: "{{ ansible_env.HOME }}/.bashrc"
+    state: link
+    force: yes

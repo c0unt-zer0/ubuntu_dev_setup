@@ -1,0 +1,17 @@
+---
+- name: Install ranger
+  become: true
+  apt:
+    name: ranger
+    state: present
+
+- name: Create ranger config directory
+  file:
+    path: "{{ ansible_env.HOME }}/.config/ranger"
+    state: directory
+
+- name: Link ranger config
+  file:
+    src: "{{ playbook_dir }}/ranger.conf"
+    dest: "{{ ansible_env.HOME }}/.config/ranger/rc.conf"
+    state: link

@@ -1,0 +1,20 @@
+---
+- name: Clone fzf
+  git:
+    repo: https://github.com/junegunn/fzf
+    dest: repos/fzf
+    version: "{{ fzf_version }}"
+  register: fzf_clone
+
+- name: Create local branch
+  command: "git -C repos/fzf checkout -b {{ fzf_version }}_build"
+  when: fzf_clone.changed
+
+- name: Build fzf
+  command: "./install --no-update-rc"
+  chdir: "repos/fzf"
+
+- name: Clone fzf-git
+  git:
+    repo: https://github.com/junegunn/fzf-git.sh
+    dest: repos/fzf-git.sh
