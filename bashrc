@@ -10,4 +10,6 @@ esac
 export PATH=$PATH:~/bin:~/.local/bin:~/go/bin
 
 # Load customizations
-source ~/.bashrc.d/*
+for f in ~/.bashrc.d/*; do
+  source $f
+done
