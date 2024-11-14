@@ -1,6 +1,8 @@
 Setup dev environment on Ubuntu
 ===============================
 
+![License](https://img.shields.io/github/license/arsham/fzfmania.nvim)
+
 This project contains an ansible playbook to setup a clean Ubuntu installation
 with my preferred tools and configurations.
 
