@@ -28,6 +28,8 @@ On the new machine, remember to do the following manually:
 
 TODO:
 - Add installation of chrome and virt-manager to playbook
+- Add kitty icat command to show bazel deps in terminal
+- Install git-toprepo
 
 ## Tools
 
@@ -37,6 +39,8 @@ Currently the following tools are installed and setup:
 - Kitty
 - Neovim
 - Ranger
+- Fzf with git extensions integrated in bash and also used in neovim via
+  FzfLua.
 
 Additionally my neovim configuration will be fetched and setup which contains
 my preferred plugins.
