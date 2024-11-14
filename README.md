@@ -10,11 +10,7 @@ a new machine when changing computers.
 The playbook is executed with the following command:
 
 ```bash
-$ ansible-playbook -c local -i "localhost," -K setup.yml
-```
-or by using the script
-```bash
-$ ./setup.sh
+$ ansible-playbook setup.yml
 ```
 
 Other things to remember to transfer when changing computers:
