@@ -2,7 +2,7 @@
 - name: Setup kitty
   hosts: all
   tasks:
-    - name: Create directories
+    - name: Create directory for kitty.app
       file:
         path: "{{ inventory_dir }}/tarballs/kitty.app"
         state: directory
@@ -34,6 +34,11 @@
       with_items:
         - kitty.desktop
         - kitty-open.desktop
+
+    - name: Create destination directory for desktop files
+      file:
+        path: "{{ ansible_env.HOME }}/.local/share/applications"
+        state: directory
 
     - name: Install kitty desktop file
       copy:
