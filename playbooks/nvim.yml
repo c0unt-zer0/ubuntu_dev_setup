@@ -9,7 +9,7 @@
       register: nvim_download
 
     - name: Extract nvim
-      command: tar -xf tarballs/nvim-linux64.tar -C {{ inventory_dir }}/tarballs
+      command: tar -xf {{ inventory_dir }}/tarballs/nvim-linux64.tar -C {{ inventory_dir }}/tarballs
       when: nvim_download.changed
 
     - name: Link nvim installation
