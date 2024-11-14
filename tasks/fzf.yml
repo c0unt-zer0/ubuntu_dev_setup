@@ -9,7 +9,7 @@
   command:
     cmd: "./install --no-update-rc"
     chdir: "repos/fzf"
-  creates: "repos/fzf/bin/fzf"
+    creates: "repos/fzf/bin/fzf"
 
 - name: Clone fzf-git
   git:
