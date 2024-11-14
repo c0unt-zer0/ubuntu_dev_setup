@@ -25,3 +25,7 @@ jobs:
       - name: Run playbook
         run: |
           ansible-playbook setup.yml
+      - name: Run playbook second time and verify no changed tasks
+        run: |
+          ansible-playbook setup.yml 2>&1 | tee /tmp/ansible-playbook.log
+          tail -2 /tmp/ansible-playbook.log | grep -q 'changed=0.*failed=0'
