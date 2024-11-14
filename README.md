@@ -1,9 +1,9 @@
 Setup dev environment on Ubuntu
 ===============================
-
-![License](https://img.shields.io/github/license/arsham/fzfmania.nvim)
-
-![CI status](https://github.com/bagge/ubuntu_dev_setup/actions/workflows/ci.yml/badge.svg?event=push)
+<p>
+    <img src="https://img.shields.io/github/license/bagge/ubuntu_dev_setup" hspace="5" >
+    <img src="https://github.com/bagge/ubuntu_dev_setup/actions/workflows/ci.yml/badge.svg?event=push" hspace="5" >
+</p>
 
 This project contains an ansible playbook to setup a clean Ubuntu installation
 with my preferred tools and configurations.
