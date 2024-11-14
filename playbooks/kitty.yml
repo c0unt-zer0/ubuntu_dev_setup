@@ -1,0 +1,107 @@
+---
+- name: Setup kitty
+  hosts: all
+  tasks:
+    - name: Create directories
+      file:
+        path: "{{ inventory_dir }}/tarballs/kitty.app"
+        state: directory
+
+    - name: Download kitty release
+      get_url:
+        url: "https://github.com/kovidgoyal/kitty/releases/download/v{{ kitty_version }}/kitty-{{ kitty_version }}-x86_64.txz"
+        dest: "{{ inventory_dir }}/tarballs/kitty-{{ kitty_version }}-x86_64.tar"
+      register: download_kitty
+
+    - name: Extract kitty tarball
+      command: tar -xf "tarballs/kitty-{{ kitty_version }}-x86_64.tar" -C "{{ inventory_dir }}/tarballs/kitty.app"
+      when: download_kitty.changed
+
+    - name: Fix kitty path in desktop files
+      replace:
+        path: "{{ inventory_dir }}/tarballs/kitty.app/share/applications/{{ item }}"
+        regexp: 'Exec=kitty'
+        replace: 'Exec={{ ansible_env.HOME }}/.local/bin/kitty'
+      with_items:
+        - kitty.desktop
+        - kitty-open.desktop
+
+    - name: Fix kitty icon path in desktop files
+      replace:
+        path: "{{ inventory_dir }}/tarballs/kitty.app/share/applications/{{ item }}"
+        regexp: 'Icon=kitty'
+        replace: 'Icon={{ ansible_env.HOME }}/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png'
+      with_items:
+        - kitty.desktop
+        - kitty-open.desktop
+
+    - name: Install kitty desktop file
+      copy:
+        src: "{{ inventory_dir }}/tarballs/kitty.app/share/applications/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.local/share/applications/{{ item }}"
+      with_items:
+        - kitty.desktop
+        - kitty-open.desktop
+
+    - name: Make xdg-terminal-exec (and hence desktop environments that support it use kitty)
+      copy:
+        content: |
+          kitty.desktop
+        dest: "{{ ansible_env.HOME }}/.config/xdg-terminals.list"
+
+    - name: Configure gnome to use kitty as default terminal
+      command: gsettings set org.gnome.desktop.default-applications.terminal exec "{{ ansible_env.HOME }}/.local/bin/kitty"
+      changed_when: false
+
+    - name: Create kitty config directory
+      file:
+        path: "{{ ansible_env.HOME }}/.config/kitty"
+        state: directory
+
+    - name: Install kitty configuration
+      file:
+        src: "{{ inventory_dir }}/kitty.conf"
+        dest: "{{ ansible_env.HOME }}/.config/kitty/kitty.conf"
+        state: link
+
+    - name: Link kitty installation
+      file:
+        src: "{{ inventory_dir }}/tarballs/kitty.app"
+        dest: "{{ ansible_env.HOME }}/.local/kitty.app"
+        state: link
+
+    - name: Create local bin directory
+      file:
+        dest: "{{ ansible_env.HOME }}/.local/bin"
+        state: directory
+
+    - name: Link kitty binaries
+      file:
+        src: "../kitty.app/bin/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.local/bin/{{ item }}"
+        state: link
+      with_items:
+        - kitty
+        - kitten
+
+    - name: Clone kitty-themes
+      git:
+        repo: https://github.com/kovidgoyal/kitty-themes.git
+        dest: "{{ inventory_dir }}/repos/kitty-themes"
+
+    - name: Link kitty theme
+      file:
+        src: "{{ inventory_dir }}/repos/kitty-themes/themes/Dracula.conf"
+        dest: "{{ ansible_env.HOME }}/.config/kitty/theme.conf"
+        state: link
+
+    - name: Clone kitty-grab
+      git:
+        repo: https://github.com/yurikhan/kitty_grab.git
+        dest: "{{ inventory_dir }}/repos/kitty_grab"
+
+    - name: Link kitty-grab conf
+      file:
+        src: "{{ inventory_dir}}/repos/kitty_grab/grab-vim.conf.example"
+        dest: "{{ ansible_env.HOME }}/.config/kitty/grab.conf"
+        state: link

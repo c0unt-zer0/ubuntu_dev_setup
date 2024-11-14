@@ -2,119 +2,13 @@
 # Install gopls to use lsp in nvim
 # TODO: Install gopls as $ go install golang.org/x/tools/gopls@latest
 # Add the local go/bin to PATH in .bashrc (that's where gopls ends up)
-
-- name: Setup the development environment
-  hosts: localhost
-  vars:
-    kitty_version: 0.37.0
-    bash_it_version: 3.0.3
-    fzf_version: 0.53.0
-
-  tasks:
-    # Need to make sure psutil is available for ansible dconf module to work
-    - name: Install python3-psutil
-      become: true
-      apt:
-        name: python3-psutil
-        update_cache: yes
-        state: present
-
-    - name: Create tarballs directory
-      file:
-        path: "{{ playbook_dir }}/tarballs"
-        state: directory
-
-    - name: Include gnome customization tasks
-      include_tasks:
-        file: tasks/gnome-customization.yml
-        apply:
-          tags:
-            - gnome-customization
-      tags:
-        - always
-
-    - name: Include font tasks
-      include_tasks:
-        file: tasks/fonts.yml
-        apply:
-          tags:
-            - fonts
-      tags:
-        - always
-
-    - name: Include kitty tasks
-      include_tasks:
-        file: tasks/kitty.yml
-        apply:
-          tags:
-            - kitty
-      tags:
-        - always
-
-    - name: Include nvim tasks
-      include_tasks:
-        file: tasks/nvim.yml
-        apply:
-          tags:
-            - nvim
-      tags:
-        - always
-
-    - name: Include bash-it tasks
-      include_tasks:
-        file: tasks/bash-it.yml
-        apply:
-          tags:
-            - bash-it
-      tags:
-        - always
-
-    - name: Include bashrc tasks
-      include_tasks:
-        file: tasks/bashrc.yml
-        apply:
-          tags:
-            - bashrc
-      tags:
-        - always
-
-    - name: Include ranger tasks
-      include_tasks:
-        file: tasks/ranger.yml
-        apply:
-          tags:
-            - ranger
-      tags:
-        - always
-
-    - name: Include fzf tasks
-      include_tasks:
-        file: tasks/fzf.yml
-        apply:
-          tags:
-            - fzf
-      tags:
-        - always
-
-    - name: Add global gitignore
-      community.general.git_config:
-        name: core.excludesfile
-        scope: global
-        value: "{{ ansible_env.HOME }}/.gitignore"
-
-    - name: Check .gitignore
-      stat:
-        path: "{{ ansible_env.HOME }}/.gitignore"
-      register: gitignore
-
-    - name: Ensure .gitignore exists
-      file:
-        path: "{{ ansible_env.HOME }}/.gitignore"
-        state: touch
-      when: gitignore.stat.exists == False
-
-    - name: Add go.sum to global gitignore
-      lineinfile:
-        path: "{{ ansible_env.HOME }}/.gitignore"
-        line: go.sum
-
+- import_playbook: playbooks/common.yml
+- import_playbook: playbooks/gnome-customization.yml
+- import_playbook: playbooks/fonts.yml
+- import_playbook: playbooks/kitty.yml
+- import_playbook: playbooks/nvim.yml
+- import_playbook: playbooks/bash-it.yml
+- import_playbook: playbooks/bashrc.yml
+- import_playbook: playbooks/ranger.yml
+- import_playbook: playbooks/fzf.yml
+- import_playbook: playbooks/global-gitignore.yml

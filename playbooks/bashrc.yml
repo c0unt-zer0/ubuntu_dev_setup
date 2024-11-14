@@ -1,0 +1,16 @@
+---
+- name: Configure .bashrc
+  hosts: all
+  tasks:
+    - name: Link bashrc-snippets to home directory
+      file:
+        src: "{{ inventory_dir }}/bashrc.d"
+        dest: "{{ ansible_env.HOME }}/.bashrc.d"
+        state: link
+
+    - name: Link bashrc to home directory
+      file:
+        src: "{{ inventory_dir }}/bashrc"
+        dest: "{{ ansible_env.HOME }}/.bashrc"
+        state: link
+        force: yes

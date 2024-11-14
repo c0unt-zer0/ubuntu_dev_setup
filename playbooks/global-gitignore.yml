@@ -1,0 +1,25 @@
+---
+- name: Setup global .gitignore with defaults
+  hosts: all
+  tasks:
+    - name: Add global gitignore
+      community.general.git_config:
+        name: core.excludesfile
+        scope: global
+        value: "{{ ansible_env.HOME }}/.gitignore"
+
+    - name: Check .gitignore
+      stat:
+        path: "{{ ansible_env.HOME }}/.gitignore"
+      register: gitignore
+
+    - name: Ensure .gitignore exists
+      file:
+        path: "{{ ansible_env.HOME }}/.gitignore"
+        state: touch
+      when: gitignore.stat.exists == False
+
+    - name: Add go.sum to global gitignore
+      lineinfile:
+        path: "{{ ansible_env.HOME }}/.gitignore"
+        line: go.sum

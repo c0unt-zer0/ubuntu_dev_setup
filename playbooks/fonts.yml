@@ -1,0 +1,24 @@
+---
+- name: Install fonts
+  hosts: all
+  tasks:
+    - name: Create font directory
+      file:
+        path: "{{ ansible_env.HOME }}/.local/share/fonts"
+        state: directory
+
+    - name: Download fonts
+      get_url:
+        url: "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip"
+        dest: "{{ inventory_dir}}/tarballs/Hack.zip"
+
+    - name: Extract fonts
+      unarchive:
+        src: "{{ inventory_dir}}/tarballs/Hack.zip"
+        dest: "{{ ansible_env.HOME }}/.local/share/fonts"
+        remote_src: yes
+
+    - name: Update font cache
+      command: fc-cache -f -v
+      changed_when: false
+
