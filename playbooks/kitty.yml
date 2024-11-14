@@ -14,7 +14,7 @@
       register: download_kitty
 
     - name: Extract kitty tarball
-      command: tar -xf "tarballs/kitty-{{ kitty_version }}-x86_64.tar" -C "{{ inventory_dir }}/tarballs/kitty.app"
+      command: tar -xf "{{ inventory_dir }}/tarballs/kitty-{{ kitty_version }}-x86_64.tar" -C "{{ inventory_dir }}/tarballs/kitty.app"
       when: download_kitty.changed
 
     - name: Fix kitty path in desktop files
