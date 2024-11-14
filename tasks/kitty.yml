@@ -14,17 +14,9 @@
   command: tar -xf "tarballs/kitty-{{ kitty_version }}-x86_64.tar" -C "tarballs/kitty.app"
   when: download_kitty.changed
 
-- name: Install kitty desktop file
-  copy:
-    src: "tarballs/kitty.app/share/applications/{{ item }}"
-    dest: "{{ ansible_env.HOME }}/.local/share/applications/{{ item }}"
-  with_items:
-    - kitty.desktop
-    - kitty-open.desktop
-
 - name: Fix kitty path in desktop files
   replace:
-    path: "{{ ansible_env.HOME }}/.local/share/applications/{{ item }}"
+    path: "tarballs/kitty.app/share/applications/{{ item }}"
     regexp: 'Exec=kitty'
     replace: 'Exec={{ ansible_env.HOME }}/.local/bin/kitty'
   with_items:
@@ -33,9 +25,17 @@
 
 - name: Fix kitty icon path in desktop files
   replace:
-    path: "{{ ansible_env.HOME }}/.local/share/applications/{{ item }}"
+    path: "tarballs/kitty.app/share/applications/{{ item }}"
     regexp: 'Icon=kitty'
     replace: 'Icon={{ ansible_env.HOME }}/.local/kitty.app/share/icons/hicolor/256x256/apps/kitty.png'
+  with_items:
+    - kitty.desktop
+    - kitty-open.desktop
+
+- name: Install kitty desktop file
+  copy:
+    src: "tarballs/kitty.app/share/applications/{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.local/share/applications/{{ item }}"
   with_items:
     - kitty.desktop
     - kitty-open.desktop
