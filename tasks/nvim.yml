@@ -2,11 +2,12 @@
 - name: Download nvim
   get_url:
     url: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-    dest: tarballs/nvim-linux64.tar
+    dest: tarballs/nvim-linux64.tar.gz
+    decompress: false
   register: nvim_download
 
 - name: Extract nvim
-  command: tar -xf tarballs/nvim-linux64.tar -C tarballs
+  command: tar -zxf tarballs/nvim-linux64.tar.gz -C tarballs
   when: nvim_download.changed
 
 - name: Link nvim installation
