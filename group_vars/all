@@ -2,3 +2,5 @@
 kitty_version: 0.37.0
 bash_it_version: 3.0.3
 fzf_version: 0.53.0
+bazelisk_version: 1.23.0
+bazel_buildtools_version: 7.3.1
