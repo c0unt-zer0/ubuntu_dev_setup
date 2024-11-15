@@ -6,6 +6,7 @@
       file:
         path: "{{ inventory_dir }}/tarballs/kitty.app"
         state: directory
+        mode: 0755
 
     - name: Download kitty release
       get_url:
@@ -14,8 +15,11 @@
       register: download_kitty
 
     - name: Extract kitty tarball
-      command: tar -xf "{{ inventory_dir }}/tarballs/kitty-{{ kitty_version }}-x86_64.tar" -C "{{ inventory_dir }}/tarballs/kitty.app"
-      when: download_kitty.changed
+      unarchive:
+        src: "{{ inventory_dir }}/tarballs/kitty-{{ kitty_version }}-x86_64.tar"
+        dest: "{{ inventory_dir }}/tarballs/kitty.app"
+        remote_src: true
+        creates: "{{ inventory_dir }}/tarballs/kitty.app/bin"
 
     - name: Fix kitty path in desktop files
       replace:
@@ -39,11 +43,13 @@
       file:
         path: "{{ ansible_env.HOME }}/.local/share/applications"
         state: directory
+        mode: 0755
 
     - name: Install kitty desktop file
       copy:
         src: "{{ inventory_dir }}/tarballs/kitty.app/share/applications/{{ item }}"
         dest: "{{ ansible_env.HOME }}/.local/share/applications/{{ item }}"
+        mode: 0644
       with_items:
         - kitty.desktop
         - kitty-open.desktop
@@ -53,6 +59,7 @@
         content: |
           kitty.desktop
         dest: "{{ ansible_env.HOME }}/.config/xdg-terminals.list"
+        mode: 0644
 
     - name: Configure gnome to use kitty as default terminal
       command: gsettings set org.gnome.desktop.default-applications.terminal exec "{{ ansible_env.HOME }}/.local/bin/kitty"
@@ -62,6 +69,7 @@
       file:
         path: "{{ ansible_env.HOME }}/.config/kitty"
         state: directory
+        mode: 0755
 
     - name: Install kitty configuration
       file:
@@ -79,6 +87,7 @@
       file:
         dest: "{{ ansible_env.HOME }}/.local/bin"
         state: directory
+        mode: 0755
 
     - name: Link kitty binaries
       file:
@@ -107,6 +116,6 @@
 
     - name: Link kitty-grab conf
       file:
-        src: "{{ inventory_dir}}/repos/kitty_grab/grab-vim.conf.example"
+        src: "{{ inventory_dir }}/repos/kitty_grab/grab-vim.conf.example"
         dest: "{{ ansible_env.HOME }}/.config/kitty/grab.conf"
         state: link

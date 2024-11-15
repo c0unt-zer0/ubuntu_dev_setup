@@ -17,7 +17,8 @@
       file:
         path: "{{ ansible_env.HOME }}/.gitignore"
         state: touch
-      when: gitignore.stat.exists == False
+        mode: 0644
+      when: not gitignore.stat.exists
 
     - name: Add go.sum to global gitignore
       lineinfile:

@@ -1,4 +1,7 @@
 ---
 kinds:
   - playbook: "**/*.{yml,yaml}"
+
+skip_list:
+  - git-latest
 ...

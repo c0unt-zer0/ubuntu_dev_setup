@@ -20,8 +20,9 @@
     - name: Enable workspace indicator
       command:
         cmd: gnome-extensions enable workspace-indicator@gnome-shell-extensions.gcampax.github.com
+      register: enable_workspace_indicator
       changed_when: "enabled_extensions.value != None and 'workspace-indicator' not in enabled_extensions.value"
-      ignore_errors: yes
+      failed_when: "enabled_extensions.value != None and enable_workspace_indicator.rc != 0"
 
     - name: Configure switch to workspace left
       community.general.dconf:

@@ -17,4 +17,4 @@
     - name: Clone fzf-git
       git:
         repo: https://github.com/junegunn/fzf-git.sh
-        dest: "{{ inventory_dir}}/repos/fzf-git.sh"
+        dest: "{{ inventory_dir }}/repos/fzf-git.sh"

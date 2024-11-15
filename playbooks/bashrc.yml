@@ -13,4 +13,4 @@
         src: "{{ inventory_dir }}/bashrc"
         dest: "{{ ansible_env.HOME }}/.bashrc"
         state: link
-        force: yes
+        force: true

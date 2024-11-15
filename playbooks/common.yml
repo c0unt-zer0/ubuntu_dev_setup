@@ -6,10 +6,11 @@
       become: true
       apt:
         name: python3-psutil
-        update_cache: yes
+        update_cache: true
         state: present
 
     - name: Create tarballs directory
       file:
         path: "{{ inventory_dir }}/tarballs"
         state: directory
+        mode: 0755
