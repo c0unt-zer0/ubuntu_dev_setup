@@ -1,6 +1,7 @@
 ---
 - name: Setup glow
   hosts: all
+  tags: glow
   tasks:
     - name: Fetch glow
       get_url:

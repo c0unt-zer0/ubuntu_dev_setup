@@ -1,6 +1,7 @@
 ---
 - name: Setup fzf
   hosts: all
+  tags: fzf
   tasks:
     - name: Clone fzf
       git:

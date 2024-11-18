@@ -1,6 +1,7 @@
 ---
 - name: Apply gnome customizations
   hosts: all
+  tags: gnome-customization
   tasks:
     - name: Read enabled extensions
       community.general.dconf:
@@ -57,3 +58,4 @@
     - name: Set dark mode
       command: gsettings set org.gnome.desktop.interface color-scheme prefer-dark
       changed_when: false
+      tags: gnome-appearance

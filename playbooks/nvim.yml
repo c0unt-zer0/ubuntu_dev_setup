@@ -1,6 +1,7 @@
 ---
 - name: Setup neovim
   hosts: all
+  tags: nvim
   tasks:
     - name: Download nvim
       get_url:

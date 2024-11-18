@@ -1,6 +1,7 @@
 ---
 - name: Setup bazel
   hosts: all
+  tags: bazel
   tasks:
     - name: Create local bin directory
       file:

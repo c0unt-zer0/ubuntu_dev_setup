@@ -1,6 +1,7 @@
 ---
 - name: Setup global .gitignore with defaults
   hosts: all
+  tags: gitignore
   tasks:
     - name: Add global gitignore
       community.general.git_config:

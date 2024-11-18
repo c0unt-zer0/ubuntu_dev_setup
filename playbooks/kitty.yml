@@ -1,6 +1,7 @@
 ---
 - name: Setup kitty
   hosts: all
+  tags: kitty
   tasks:
     - name: Create directory for kitty.app
       file:

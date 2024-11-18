@@ -1,6 +1,7 @@
 ---
 - name: Setup mdcat
   hosts: all
+  tags: mdcat
   tasks:
     - name: Download mdcat
       get_url:

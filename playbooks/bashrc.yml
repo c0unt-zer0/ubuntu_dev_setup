@@ -1,6 +1,7 @@
 ---
 - name: Configure .bashrc
   hosts: all
+  tags: always, bashrc
   tasks:
     - name: Link bashrc-snippets to home directory
       file:

@@ -1,6 +1,7 @@
 ---
 - name: Setup bash-it
   hosts: all
+  tags: bash-it
   tasks:
     - name: Clone bash-it
       git:

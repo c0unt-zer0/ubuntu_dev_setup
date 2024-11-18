@@ -1,6 +1,7 @@
 ---
 - name: Install fonts
   hosts: all
+  tags: fonts
   tasks:
     - name: Create font directory
       file:

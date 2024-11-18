@@ -1,6 +1,7 @@
 ---
 - name: Setup bat
   hosts: all
+  tags: bat
   tasks:
     - name: Install bat
       apt:

@@ -1,6 +1,7 @@
 ---
 - name: Setup ranger
   hosts: all
+  tags: ranger
   tasks:
     - name: Install ranger
       become: true
