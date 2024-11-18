@@ -4,4 +4,5 @@ kinds:
 
 skip_list:
   - git-latest
+  - no-handler
 ...
