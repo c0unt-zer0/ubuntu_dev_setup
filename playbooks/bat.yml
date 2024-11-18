@@ -4,6 +4,7 @@
   tags: bat
   tasks:
     - name: Install bat
+      become: true
       apt:
         name: bat
         state: present
