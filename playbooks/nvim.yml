@@ -13,7 +13,7 @@
         src: "{{ inventory_dir }}/tarballs/nvim-linux64.tar"
         dest: "{{ inventory_dir }}/tarballs"
         remote_src: true
-        creates: "{{ inventory_dir }}/tarballs/nvim-linux64/bin"
+      when: nvim_download.changed
 
     - name: Link nvim installation
       file:
