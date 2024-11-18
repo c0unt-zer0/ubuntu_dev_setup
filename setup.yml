@@ -13,3 +13,5 @@
 - import_playbook: playbooks/fzf.yml
 - import_playbook: playbooks/global-gitignore.yml
 - import_playbook: playbooks/bazel.yml
+- import_playbook: playbooks/bat.yml
+- import_playbook: playbooks/glow.yml

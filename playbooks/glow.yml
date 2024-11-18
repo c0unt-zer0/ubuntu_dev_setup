@@ -1,0 +1,14 @@
+---
+- name: Setup glow
+  hosts: all
+  tasks:
+    - name: Fetch glow
+      get_url:
+        url: "https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_{{ glow_version }}_amd64.deb"
+        dest: "{{ inventory_dir }}/tarballs/glow_{{ glow_version }}_amd64.deb"
+
+    - name: Install glow
+      become: true
+      apt:
+        deb: "{{ inventory_dir }}/tarballs/glow_{{ glow_version }}_amd64.deb"
+        state: present
