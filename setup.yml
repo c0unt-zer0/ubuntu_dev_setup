@@ -16,3 +16,4 @@
 - import_playbook: playbooks/bat.yml
 - import_playbook: playbooks/glow.yml
 - import_playbook: playbooks/mdcat.yml
+- import_playbook: playbooks/extras.yml
