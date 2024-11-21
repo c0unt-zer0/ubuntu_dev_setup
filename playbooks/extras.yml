@@ -14,13 +14,21 @@
         state: present
       with_items:
         - curl
-        - docker.io
         - git
         - graphviz
         - jq
         - python3-pip
         - python3-venv
         - virt-manager
+
+    - name: Install apt packages not installable in Github Actions
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - docker.io
+      when: ansible_env.IS_GITHUB_CI is not defined
 
     - name: Install git-toprepo
       pip:
