@@ -27,9 +27,9 @@ On the new machine, remember to do the following manually:
 - Authenticate Copilot in neovim
 
 TODO:
-- Add installation of chrome and virt-manager to playbook
 - Add kitty icat command to show bazel deps in terminal
-- Install git-toprepo
+- Restructure bashrc playbook so snippets can be installed incrementally by
+  the playbooks that need them.
 
 ## Tools
 
