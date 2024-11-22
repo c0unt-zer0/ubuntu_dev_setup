@@ -5,11 +5,11 @@ regenerate_bazel_completion () {(
 
     usage () {(
         echo -e "Function to regenerate bazel tab completion"
-        echo -e "Usage: regenerate_bazel_completion [-h] <path>"
-        echo -e "       -h: prints this message"
-        echo -e "       -v: version of bazel to use"
-        echo -e "   <path>: path to a directory containing a .bazelversion file"
-        echo -e "           (not used if -v is used)"
+        echo -e "Usage: regenerate_bazel_completion [-h] [-v version] <path>"
+        echo -e "        -h: prints this message"
+        echo -e "-v version: version of bazel to use"
+        echo -e "    <path>: path to a directory containing a .bazelversion file"
+        echo -e "            (not used if -v is used)"
     )}
 
     local OPTIND opt h v VERSION
