@@ -62,3 +62,11 @@
         url: "https://storage.googleapis.com/git-repo-downloads/repo"
         dest: "{{ ansible_env.HOME }}/.local/bin/repo"
         mode: 0755
+
+    - name: Enable bazel bashrc snippet
+      file:
+        src: "{{ inventory_dir }}/bashrc.d/{{ item }}"
+        dest: "{{ inventory_dir }}/bashrc.d/enabled/{{ item }}"
+        state: link
+      with_items:
+        - "003-bazel-helpers.bashrc"

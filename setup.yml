@@ -3,12 +3,12 @@
 # TODO: Install gopls as $ go install golang.org/x/tools/gopls@latest
 # Add the local go/bin to PATH in .bashrc (that's where gopls ends up)
 - import_playbook: playbooks/common.yml
+- import_playbook: playbooks/bashrc.yml
 - import_playbook: playbooks/gnome-customization.yml
 - import_playbook: playbooks/fonts.yml
 - import_playbook: playbooks/kitty.yml
 - import_playbook: playbooks/nvim.yml
 - import_playbook: playbooks/bash-it.yml
-- import_playbook: playbooks/bashrc.yml
 - import_playbook: playbooks/ranger.yml
 - import_playbook: playbooks/fzf.yml
 - import_playbook: playbooks/global-gitignore.yml

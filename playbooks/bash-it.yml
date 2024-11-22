@@ -34,5 +34,11 @@
         - {type: completion, folder: completion, priority: 325, name: system}
         - {type: completion, folder: completion, priority: 350, name: bash-it}
         - {type: aliases, folder: aliases, priority: 800, name: git}
-      tags:
-        - bash-it
+
+    - name: Enable bash-it bashrc snippet
+      file:
+        src: "{{ inventory_dir }}/bashrc.d/{{ item }}"
+        dest: "{{ inventory_dir }}/bashrc.d/enabled/{{ item }}"
+        state: link
+      with_items:
+        - "002-bash_it.bashrc"

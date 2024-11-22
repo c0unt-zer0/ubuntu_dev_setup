@@ -28,8 +28,6 @@ On the new machine, remember to do the following manually:
 
 TODO:
 - Add kitty icat command to show bazel deps in terminal
-- Restructure bashrc playbook so snippets can be installed incrementally by
-  the playbooks that need them.
 
 ## Tools
 

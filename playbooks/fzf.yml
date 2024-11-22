@@ -19,3 +19,11 @@
       git:
         repo: https://github.com/junegunn/fzf-git.sh
         dest: "{{ inventory_dir }}/repos/fzf-git.sh"
+
+    - name: Enable fzf bashrc snippet
+      file:
+        src: "{{ inventory_dir }}/bashrc.d/{{ item }}"
+        dest: "{{ inventory_dir }}/bashrc.d/enabled/{{ item }}"
+        state: link
+      with_items:
+        - "005-fzf.bashrc"

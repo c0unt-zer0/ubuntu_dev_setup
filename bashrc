@@ -11,6 +11,6 @@ export PATH=$PATH:~/bin:~/.local/bin:~/go/bin
 export MANPATH=$MANPATH:~/.local/share/man
 
 # Load customizations
-for f in ~/.bashrc.d/*; do
+for f in ~/.bashrc.d/enabled/*; do
   source $f
 done

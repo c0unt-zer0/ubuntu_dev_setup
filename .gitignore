@@ -1,3 +1,4 @@
 *.tar.gz
 repos/
 tarballs/
+bashrc.d/enabled/*

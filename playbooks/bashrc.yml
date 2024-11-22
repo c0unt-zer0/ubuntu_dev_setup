@@ -15,3 +15,13 @@
         dest: "{{ ansible_env.HOME }}/.bashrc"
         state: link
         force: true
+
+    - name: Enable default bashrc snippets
+      file:
+        src: "{{ inventory_dir }}/bashrc.d/{{ item }}"
+        dest: "{{ inventory_dir }}/bashrc.d/enabled/{{ item }}"
+        state: link
+      with_items:
+        - "000-setup-location.bashrc"
+        - "004-bash-history.bashrc"
+        - "999-optional-auth.bashrc"
