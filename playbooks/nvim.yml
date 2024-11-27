@@ -5,7 +5,7 @@
   tasks:
     - name: Download nvim
       get_url:
-        url: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+        url: https://github.com/neovim/neovim/releases/download/v{{ nvim_version }}/nvim-linux64.tar.gz
         dest: "{{ inventory_dir }}/tarballs/nvim-linux64.tar"
       register: nvim_download
 
