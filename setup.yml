@@ -1,7 +1,7 @@
 ---
 # Install gopls to use lsp in nvim
 # TODO: Install gopls as $ go install golang.org/x/tools/gopls@latest
-# Add the local go/bin to PATH in .bashrc (that's where gopls ends up)
+#       Update: Setup with mason instead
 - import_playbook: playbooks/common.yml
 - import_playbook: playbooks/bashrc.yml
 - import_playbook: playbooks/gnome-customization.yml

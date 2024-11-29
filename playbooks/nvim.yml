@@ -2,6 +2,8 @@
 - name: Setup neovim
   hosts: all
   tags: nvim
+  vars:
+    golang_tar: "go{{ golang_version }}.linux-amd64.tar"
   tasks:
     - name: Download nvim
       get_url:
@@ -72,3 +74,24 @@
         state: link
       with_items:
         - "006-nvm.bashrc"
+
+    - name: Download golang
+      get_url:
+        url: https://golang.org/dl/{{ golang_tar }}.gz
+        dest: "{{ inventory_dir }}/tarballs/{{ golang_tar }}"
+      register: golang_download
+
+    - name: Extract golang
+      unarchive:
+        src: "{{ inventory_dir }}/tarballs/{{ golang_tar }}"
+        dest: "{{ inventory_dir }}/tarballs"
+        remote_src: true
+      when: golang_download.changed
+
+    - name: Enable golang bashrc snippet
+      file:
+        src: "{{ inventory_dir }}/bashrc.d/{{ item }}"
+        dest: "{{ inventory_dir }}/bashrc.d/enabled/{{ item }}"
+        state: link
+      with_items:
+        - "007-golang.bashrc"
