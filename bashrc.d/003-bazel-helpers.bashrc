@@ -1,5 +1,39 @@
 #!/usr/bin/env bash
 
+bazel_sha256 () {(
+    set -e
+
+    usage () {(
+        echo -e "Function to calculate a sha256 formatted for bazel"
+        echo -e "i.e. base64 encoded and with \"sha256-\" prefixed."
+        echo -e "Usage: bazel_sha256 [-h] <path>"
+        echo -e "        -h: prints this message"
+        echo -e "    <path>: path to the file to calculate checksum for"
+    )}
+
+    local OPTIND opt h
+    while getopts ":h" opt ; do
+        case "${opt}" in
+            h) usage
+               exit 0
+                ;;
+            ?) echo -e "Invalid option."
+               usage
+               exit 1
+                ;;
+        esac
+    done
+    shift $((OPTIND-1))
+
+    if [ -z "$1" ]; then
+        echo "No path specified"
+        usage
+        exit 1
+    fi
+
+    sha256sum $1 | cut -d' ' -f1 | xxd -r -p | base64 | sed 's/^/sha256-/'
+)}
+
 regenerate_bazel_completion () {(
     set -e
 
