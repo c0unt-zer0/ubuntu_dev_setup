@@ -8,4 +8,4 @@ glow_version: 2.0.0
 mdcat_version: 2.6.1
 nvim_version: 0.10.2
 golang_version: 1.23.3
-pyenv_version: 2.5.3
+pyenv_version: v2.5.3
