@@ -1,19 +1,9 @@
 ---
-# Install gopls to use lsp in nvim
-# TODO: Install gopls as $ go install golang.org/x/tools/gopls@latest
-#       Update: Setup with mason instead
 - import_playbook: playbooks/common.yml
 - import_playbook: playbooks/bashrc.yml
-- import_playbook: playbooks/gnome-customization.yml
+- import_playbook: playbooks/emacs.yml
 - import_playbook: playbooks/fonts.yml
-- import_playbook: playbooks/kitty.yml
-- import_playbook: playbooks/nvim.yml
-- import_playbook: playbooks/bash-it.yml
-- import_playbook: playbooks/ranger.yml
-- import_playbook: playbooks/fzf.yml
 - import_playbook: playbooks/global-gitignore.yml
 - import_playbook: playbooks/bazel.yml
-- import_playbook: playbooks/bat.yml
-- import_playbook: playbooks/glow.yml
-- import_playbook: playbooks/mdcat.yml
 - import_playbook: playbooks/extras.yml
+- import_playbook: playbooks/pyenv.yml

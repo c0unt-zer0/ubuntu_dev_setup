@@ -1,0 +1,18 @@
+---
+- name: Setup pyenv
+  hosts: all
+  tags: pyenv
+  tasks:
+    - name: Clone pyenv
+      git:
+        repo: https://github.com/pyenv/pyenv.git
+        dest: "{{ inventory_dir }}/.pyenv"
+        version: "{{ pyenv_version }}"
+
+    - name: Enable pyenv bashrc snippet
+      file:
+        src: "{{ inventory_dir }}/bashrc.d/{{ item }}"
+        dest: "{{ inventory_dir }}/bashrc.d/enabled/{{ item }}"
+        state: link
+      with_items:
+        - "005-pyenv.bashrc"
