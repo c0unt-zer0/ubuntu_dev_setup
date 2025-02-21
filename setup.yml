@@ -6,4 +6,4 @@
 - import_playbook: playbooks/global-gitignore.yml
 - import_playbook: playbooks/bazel.yml
 - import_playbook: playbooks/extras.yml
-- import_playbook: playbooks/pyenv.yml
+# - import_playbook: playbooks/pyenv.yml
