@@ -1,0 +1,30 @@
+---
+- name: Setup emacs
+  hosts: all
+  tags: emacs
+  tasks:
+    - name: Install emacs
+      become: true
+      apt:
+        name: emacs
+        state: present
+
+    - name: Create local bin directory
+      file:
+        dest: "{{ ansible_env.HOME }}/.local/bin"
+        state: directory
+        mode: 0755
+
+    - name: Create emacsclient wrapper
+      copy:
+        content: |
+          #!/usr/bin/env bash
+          exec emacsclient --alternate-editor="" -nw -c "$@"
+        dest: "{{ ansible_env.HOME }}/.local/bin/emacsclient.sh"
+        mode: 0744
+
+    - name: Create emacs config file
+      copy:
+        src: "{{ inventory_dir }}/emacs.conf"
+        dest: "{{ ansible_env.HOME }}/.emacs"
+        mode: 0644

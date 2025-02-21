@@ -2,16 +2,22 @@
 
 FILE_LIST=( \
     ".bash_history" \
-    ".bash_credentials" \
     ".flexlmrc" \
     ".gitconfig" \
-    ".git-credentials" \
     ".netrc" \
     ".qnx" \
     ".ssh" \
-    ".config/google-chrome/Default/Bookmarks" \
+    "bookmarks.html" \
+    ".emacs.d/lisp/*.el" \
+    ".docker/config.json" \
+    ".jfrog/jfrog-cli.conf*" \
+    ".pip/pip.conf" \
+    "scripts" \
+    "notes" \
+    "bazel-notes" \
 )
-
-tar -C ${HOME} -czvf bundle.tar.gz ${FILE_LIST[@]}
-
-
+HERE=$(pwd)
+# cd to enable globbing
+cd ${HOME}
+tar -czvf ${HERE}/bundle.tar.gz ${FILE_LIST[@]}
+cd - > /dev/null

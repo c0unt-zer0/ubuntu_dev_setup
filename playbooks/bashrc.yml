@@ -9,12 +9,14 @@
         dest: "{{ ansible_env.HOME }}/.bashrc.d"
         state: link
 
-    - name: Link bashrc to home directory
-      file:
-        src: "{{ inventory_dir }}/bashrc"
-        dest: "{{ ansible_env.HOME }}/.bashrc"
-        state: link
-        force: true
+    - name: Add load of bashrc snippets to .bashrc
+      blockinfile:
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        block: |
+          # Load bashrc snippets
+          for file in ~/.bashrc.d/enabled/*.bashrc; do
+            source $file
+          done
 
     - name: Enable default bashrc snippets
       file:
@@ -23,5 +25,11 @@
         state: link
       with_items:
         - "000-setup-location.bashrc"
+        - "002-prompt.bashrc"
         - "004-bash-history.bashrc"
-        - "999-optional-auth.bashrc"
+
+    - name: Add .bash_aliases
+      copy:
+        src: "{{ inventory_dir }}/bash_aliases"
+        dest: "{{ ansible_env.HOME }}/.bash_aliases"
+        mode: 0644
