@@ -17,6 +17,8 @@
         - jq
         - python3-pip
         - python3-venv
+        - pavucontrol
+        - meld
 
     - name: Install apt packages not installable in Github Actions
       become: true
