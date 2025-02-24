@@ -6,7 +6,7 @@
     - name: Clone pyenv
       git:
         repo: https://github.com/pyenv/pyenv.git
-        dest: "{{ inventory_dir }}/.pyenv"
+        dest: "{{ ansible_env.HOME }}/.pyenv"
         version: "{{ pyenv_version }}"
 
     - name: Enable pyenv bashrc snippet

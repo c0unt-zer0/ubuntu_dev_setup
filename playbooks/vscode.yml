@@ -1,0 +1,9 @@
+---
+- name: Setup Visual Studio Code
+  hosts: all
+  tags: vscode
+  tasks:
+    - name: Install VS Code with option --classic
+      community.general.snap:
+        name: code
+        classic: true
