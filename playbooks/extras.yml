@@ -19,6 +19,7 @@
         - python3-venv
         - pavucontrol
         - meld
+        - htop
 
     - name: Install apt packages not installable in Github Actions
       become: true
