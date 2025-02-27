@@ -17,6 +17,18 @@
             state: directory
             mode: 0775
 
+        - name: Check if VS Code settings file exists
+          stat:
+            path: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
+          register: settings_file
+
+        - name: Create VS Code settings file
+          copy:
+            content: "{}"
+            dest: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
+            mode: 0664
+          when: not settings_file.stat.exists
+
         - name: Read existing settings.json
           slurp:
             src: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
