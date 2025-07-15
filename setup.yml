@@ -2,8 +2,8 @@
 - import_playbook: playbooks/common.yml
 - import_playbook: playbooks/bashrc.yml
 - import_playbook: playbooks/emacs.yml
-- import_playbook: playbooks/fonts.yml
 - import_playbook: playbooks/global-gitignore.yml
 - import_playbook: playbooks/bazel.yml
 - import_playbook: playbooks/extras.yml
 - import_playbook: playbooks/pyenv.yml
+- import_playbook: playbooks/vscode.yml

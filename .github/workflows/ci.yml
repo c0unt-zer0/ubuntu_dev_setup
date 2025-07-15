@@ -1,14 +1,13 @@
+---
 name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
-
+    branches: ["main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -16,8 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ansible-lint
+          pip install ansible-lint
       - name: Run linter
         run: |
           ansible-lint setup.yml

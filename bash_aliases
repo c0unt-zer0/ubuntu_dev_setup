@@ -7,6 +7,7 @@ alias f5conn=~/scripts/connect_to_vpn.sh
 alias f5i="f5fpc --info"
 alias prp="poetry run poe"
 alias short_ps1='PS1="\W $ "'
+alias rlf="readlink -f"
 
 # Bazel
 alias fix=buildifier
@@ -18,7 +19,8 @@ alias btre="bazel test --config re"
 alias gam="git commit --amend"
 alias gamn="git commit --amend --no-edit"
 alias gpr="git pull --rebase"
-alias gpm="git push origin HEAD:refs/for/master"
+alias gpm="git toprepo push origin HEAD:refs/for/master"
+alias gpmp="git push origin HEAD:refs/for/master"
 alias gpj="git push origin HEAD:${USER}"
 alias gpb="git toprepo push origin HEAD:refs/for/work/bazel-migration"
 alias gg="git grep"

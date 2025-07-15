@@ -5,26 +5,26 @@
   tasks:
     - name: Install emacs
       become: true
-      apt:
+      ansible.builtin.apt:
         name: emacs
         state: present
 
     - name: Create local bin directory
-      file:
+      ansible.builtin.file:
         dest: "{{ ansible_env.HOME }}/.local/bin"
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: Create emacsclient wrapper
-      copy:
+      ansible.builtin.copy:
         content: |
           #!/usr/bin/env bash
           exec emacsclient --alternate-editor="" -nw -c "$@"
         dest: "{{ ansible_env.HOME }}/.local/bin/emacsclient.sh"
-        mode: 0744
+        mode: "0744"
 
     - name: Create emacs config file
-      copy:
+      ansible.builtin.copy:
         src: "{{ inventory_dir }}/emacs.conf"
         dest: "{{ ansible_env.HOME }}/.emacs"
-        mode: 0644
+        mode: "0644"

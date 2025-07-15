@@ -1,0 +1,51 @@
+---
+- name: Setup Visual Studio Code
+  hosts: all
+  tags: vscode
+  tasks:
+    - name: Install VS Code with option --classic
+      community.general.snap:
+        name: code
+        classic: true
+      when: ansible_env.IS_GITHUB_CI is not defined
+
+    - name: Configure VS Code
+      block:
+        - name: Ensure VS Code settings directory exists
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.config/Code/User"
+            state: directory
+            mode: "0775"
+
+        - name: Check if VS Code settings file exists
+          ansible.builtin.stat:
+            path: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
+          register: settings_file
+
+        - name: Create VS Code settings file
+          ansible.builtin.copy:
+            content: "{}"
+            dest: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
+            mode: "0664"
+          when: not settings_file.stat.exists
+
+        - name: Read existing settings.json
+          ansible.builtin.slurp:
+            src: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
+          register: existing_settings
+
+        - name: Read new settings from vscode_settings.json
+          ansible.builtin.slurp:
+            src: "{{ inventory_dir }}/vscode_settings.json"
+          register: new_settings
+
+        - name: Merge settings
+          ansible.builtin.set_fact:
+            merged_settings: "{{ (existing_settings.content | b64decode | from_json) | combine(new_settings.content | b64decode | from_json) }}"
+
+        - name: Write merged settings to settings.json
+          ansible.builtin.copy:
+            content: "{{ merged_settings | to_nice_json }}"
+            dest: "{{ ansible_env.HOME }}/.config/Code/User/settings.json"
+            backup: true
+            mode: "0664"

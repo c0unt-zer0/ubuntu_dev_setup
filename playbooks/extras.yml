@@ -7,7 +7,7 @@
   tasks:
     - name: Install other apt packages
       become: true
-      apt:
+      ansible.builtin.apt:
         name: "{{ item }}"
         state: present
       with_items:
@@ -17,10 +17,14 @@
         - jq
         - python3-pip
         - python3-venv
+        - pavucontrol
+        - meld
+        - htop
+        - dos2unix
 
     - name: Install apt packages not installable in Github Actions
       become: true
-      apt:
+      ansible.builtin.apt:
         name: "{{ item }}"
         state: present
       with_items:
@@ -28,23 +32,24 @@
       when: ansible_env.IS_GITHUB_CI is not defined
 
     - name: Install git-toprepo
-      pip:
+      ansible.builtin.pip:
         name: git-toprepo
         extra_args: --user
 
     - name: Download google-chrome-stable
-      get_url:
+      ansible.builtin.get_url:
         url: "https://dl.google.com/linux/direct/{{ chrome_deb }}"
         dest: "{{ inventory_dir }}/tarballs/{{ chrome_deb }}"
+        mode: "0644"
 
     - name: Install google-chrome-stable
       become: true
-      apt:
+      ansible.builtin.apt:
         deb: "{{ inventory_dir }}/tarballs/{{ chrome_deb }}"
         state: present
 
     - name: Install jfrog cli
-      get_url:
+      ansible.builtin.get_url:
         url: "https://releases.jfrog.io/artifactory/jfrog-cli/v2-jf/[RELEASE]/jfrog-cli-linux-amd64/jf"
         dest: "{{ ansible_env.HOME }}/.local/bin/jfrog"
-        mode: 0755
+        mode: "0755"
