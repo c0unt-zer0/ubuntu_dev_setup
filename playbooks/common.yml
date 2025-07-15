@@ -4,7 +4,7 @@
   tags: common
   tasks:
     - name: Create tarballs directory
-      file:
+      ansible.builtin.file:
         path: "{{ inventory_dir }}/tarballs"
         state: directory
-        mode: 0755
+        mode: "0755"

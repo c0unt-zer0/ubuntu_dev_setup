@@ -4,39 +4,39 @@
   tags: bash-it
   tasks:
     - name: Clone bash-it
-      git:
+      ansible.builtin.git:
         repo: https://github.com/Bash-it/bash-it.git
         dest: "{{ inventory_dir }}/repos/bash-it"
         version: "v{{ bash_it_version }}"
 
     - name: Clone gitstatus
-      git:
+      ansible.builtin.git:
         repo: https://github.com/romkatv/gitstatus.git
         dest: "{{ inventory_dir }}/repos/gitstatus"
         depth: 1
 
     - name: Create enabled directory
-      file:
+      ansible.builtin.file:
         path: "{{ inventory_dir }}/repos/bash-it/enabled"
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: Enable bash-it extras
-      file:
+      ansible.builtin.file:
         src: "../{{ item.folder }}/available/{{ item.name }}.{{ item.type }}.bash"
         dest: "{{ inventory_dir }}/repos/bash-it/enabled/{{ item.priority }}---{{ item.name }}.{{ item.type }}.bash"
         state: link
         force: true
       with_items:
-        - {type: aliases, folder: aliases, priority: 150, name: general}
-        - {type: plugin, folder: plugins, priority: 250, name: base}
-        - {type: plugin, folder: plugins, priority: 250, name: gitstatus}
-        - {type: completion, folder: completion, priority: 325, name: system}
-        - {type: completion, folder: completion, priority: 350, name: bash-it}
-        - {type: aliases, folder: aliases, priority: 800, name: git}
+        - { type: aliases, folder: aliases, priority: 150, name: general }
+        - { type: plugin, folder: plugins, priority: 250, name: base }
+        - { type: plugin, folder: plugins, priority: 250, name: gitstatus }
+        - { type: completion, folder: completion, priority: 325, name: system }
+        - { type: completion, folder: completion, priority: 350, name: bash-it }
+        - { type: aliases, folder: aliases, priority: 800, name: git }
 
     - name: Enable bash-it bashrc snippet
-      file:
+      ansible.builtin.file:
         src: "{{ inventory_dir }}/bashrc.d/{{ item }}"
         dest: "{{ inventory_dir }}/bashrc.d/enabled/{{ item }}"
         state: link

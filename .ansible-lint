@@ -1,6 +1,8 @@
 ---
 kinds:
-  - playbook: "**/*.{yml,yaml}"
+  - playbook: "**/playbooks/*.{yml,yaml}"
+  - vars: "**/group_vars/*.yml"
+  - yaml: "{setup,requirements}.yml"
 
 skip_list:
   - git-latest
