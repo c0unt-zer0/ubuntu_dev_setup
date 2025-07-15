@@ -20,6 +20,7 @@
         - pavucontrol
         - meld
         - htop
+        - dos2unix
 
     - name: Install apt packages not installable in Github Actions
       become: true
